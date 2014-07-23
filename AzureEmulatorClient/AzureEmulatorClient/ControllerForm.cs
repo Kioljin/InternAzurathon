@@ -14,9 +14,7 @@ namespace AzureEmulatorClient
     {
         private ControllerServer server;
         private KeyboardState keyboard;
-
-        private Bitmap screen;
-
+        
         public ControllerForm()
         {
             InitializeComponent();
@@ -29,8 +27,16 @@ namespace AzureEmulatorClient
             this.KeyUp += Control_KeyUp;
             this.Paint += ControllerForm_Paint;
 
+            this.FormClosed += ControllerForm_FormClosed;
+
             this.Width = 300;
             this.Height = 300;
+        }
+
+        void ControllerForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (server != null)
+                server.Close();
         }
         
         void ControllerForm_Paint(object sender, PaintEventArgs e)

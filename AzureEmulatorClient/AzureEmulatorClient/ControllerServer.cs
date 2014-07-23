@@ -30,6 +30,13 @@ namespace AzureEmulatorClient
             this.address = address;
         }
 
+        public void Close()
+        {
+            if (!_connected) return;
+            _connected = false;
+            if (server != null)
+                server.Close();
+        }
         public bool Connect()
         {
             try
