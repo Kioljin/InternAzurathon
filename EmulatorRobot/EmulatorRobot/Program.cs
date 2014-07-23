@@ -30,29 +30,41 @@ namespace EmulatorRobot
             {
                 switch (key)
                 {
-                    case 65: //A
-                        key = 90;
+                    case 81: //A
+                        key = 84;
                         break;
-                    case 66: //B
-                        key = 86;
+                    case 69: //B
+                        key = 85;
                         break;
-                    case 83: //S
-                        key = 88;
+                    case 49: //X
+                        key = 53;
                         break;
-                    case 84: //T
-                        key = 67;
+                    case 51: //Y
+                        key = 55;
                         break;
-                    case 38: //UP
+                    case 82: //SELECT
+                        key = 73;
+                        break;
+                    case 70: //START
                         key = 75;
                         break;
-                    case 40: //DOWN
-                        key = 74;
+                    case 87: //UP
+                        key = 89;
                         break;
-                    case 37: //LEFT
+                    case 83: //DOWN
                         key = 72;
                         break;
-                    case 39: //RIGHT
-                        key = 76;
+                    case 65: //LEFT
+                        key = 71;
+                        break;
+                    case 68: //RIGHT
+                        key = 74;
+                        break;
+                    case 90: //L
+                        key = 66;
+                        break;
+                    case 88: //R
+                        key = 78;
                         break;
                     default:
                         break;
