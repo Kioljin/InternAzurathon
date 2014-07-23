@@ -32,13 +32,15 @@ namespace AzureEmulatorClient
             this.Width = 300;
             this.Height = 300;
         }
-
+        
         void ControllerForm_Paint(object sender, PaintEventArgs e)
         {
             if (server == null) return;
             if (server.Image == null) return;
 
-            e.Graphics.DrawImage(server.Image, 0, 50);
+            this.Width = server.Image.Width + 10 + 5;
+            this.Height = server.Image.Height + 5 + 32;
+            e.Graphics.DrawImage(server.Image, 0, 0);
         }
 
         private void Control_KeyUp(object sender, KeyEventArgs e)
@@ -80,7 +82,10 @@ namespace AzureEmulatorClient
             server = new ControllerServer(this, txtServer.Text);
             server.Connect();
 
-            txtServer.Enabled = false;
+            txtServer.Visible = false;
+            txtServer.Enabled = true;
+            btnConnect.Visible = false;
+            btnConnect.Enabled = true;
         }
 
         private Bitmap CaptureWindow()

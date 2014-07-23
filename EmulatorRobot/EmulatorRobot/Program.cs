@@ -1,7 +1,9 @@
 ﻿using EmulatorRobot;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -67,7 +69,8 @@ namespace EmulatorRobot
         }
 
         private NetworkStream stream;
-            
+        private bool connected = true;    
+
         public Client(NetworkStream stream)
         {
             this.stream = stream;
@@ -75,10 +78,19 @@ namespace EmulatorRobot
 
         private void recieveKeyboard()
         {
-            while (true)
+            while (connected)
             {
-                KeyboardEvent key = new KeyboardEvent(stream);
-                key.Execute();
+                try
+                {
+                    KeyboardEvent key = new KeyboardEvent(stream);
+                    key.Execute();
+                }
+                catch (IOException)
+                {
+                    this.connected = false;
+                    System.Console.WriteLine("Client closed connection");
+                    return;
+                }
             }
         }
 
@@ -98,7 +110,7 @@ namespace EmulatorRobot
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
-            while (true)
+            while (connected)
             {
                 try
                 {
@@ -106,13 +118,21 @@ namespace EmulatorRobot
                     RECT active = new RECT();
                     GetWindowRect(window, ref active);
 
-                    Rectangle view = new Rectangle(active.Left, active.Top, active.Right - active.Left, active.Bottom - active.Top);
-                    if (view.Width == 0 || view.Height == 0) continue;
+                    Rectangle view = new Rectangle(active.Left + 10, active.Top + 52, active.Right - active.Left - 20, active.Bottom - active.Top - 52 - 10);
 
+                    if (view.Width <= 0 || view.Height <= 0) continue;
 
                     Bitmap b = CaptureWindow(view);
                     formatter.Serialize(stream, b);
                     stream.Flush();
+
+                    Thread.Sleep(100);
+                }
+                catch (IOException)
+                {
+                    this.connected = false;
+                    System.Console.WriteLine("Client closed connection");
+                    return;
                 }
                 catch (Exception e)
                 {
@@ -136,6 +156,8 @@ namespace EmulatorRobot
     class Server
     {
         private TcpListener tcpListener;
+        private Process game;
+
         public Server(int port)
         {
             tcpListener = new TcpListener(IPAddress.Any, port);

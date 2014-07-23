@@ -48,13 +48,13 @@
             this.txtServer.Name = "txtServer";
             this.txtServer.Size = new System.Drawing.Size(178, 20);
             this.txtServer.TabIndex = 1;
-            this.txtServer.Text = "23.99.66.107";
+            this.txtServer.Text = "23.99.67.208";
             // 
             // ControllerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(536, 358);
+            this.ClientSize = new System.Drawing.Size(301, 358);
             this.Controls.Add(this.txtServer);
             this.Controls.Add(this.btnConnect);
             this.Name = "ControllerForm";
