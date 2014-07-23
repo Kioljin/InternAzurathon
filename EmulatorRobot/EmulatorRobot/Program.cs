@@ -113,8 +113,6 @@ namespace EmulatorRobot
                     Bitmap b = CaptureWindow(view);
                     formatter.Serialize(stream, b);
                     stream.Flush();
-
-                    System.Console.WriteLine("Send image");
                 }
                 catch (Exception e)
                 {

@@ -43,9 +43,6 @@ namespace AzureEmulatorClient
 
         private void Control_KeyUp(object sender, KeyEventArgs e)
         {
-            this.screen = CaptureWindow();
-            this.Invalidate();
-
             if (server == null)
             {
                 return;
@@ -82,6 +79,8 @@ namespace AzureEmulatorClient
         {
             server = new ControllerServer(this, txtServer.Text);
             server.Connect();
+
+            txtServer.Enabled = false;
         }
 
         private Bitmap CaptureWindow()

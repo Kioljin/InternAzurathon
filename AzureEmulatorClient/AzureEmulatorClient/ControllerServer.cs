@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace AzureEmulatorClient
 {
-    class ControllerServer
+    public class ControllerServer
     {
         private string address;
         private TcpClient server;
@@ -49,9 +49,16 @@ namespace AzureEmulatorClient
 
             while (true)
             {
-                Bitmap b = (Bitmap)formatter.Deserialize(stream);
-                this.lastImage = b;
-                parent.Invalidate();
+                try
+                {
+                    Bitmap b = (Bitmap)formatter.Deserialize(stream);
+                    this.lastImage = b;
+                    parent.Invalidate();
+                }
+                catch (Exception e)
+                {
+                    return;
+                }
             }
         }
 
