@@ -30,16 +30,24 @@ namespace AzureEmulatorClient
             this.address = address;
         }
 
-        public void Connect()
+        public bool Connect()
         {
-            server = new TcpClient();
-            IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(address), 3000);
-            server.Connect(serverEndPoint);
+            try
+            {
+                server = new TcpClient();
+                IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse(address), 3000);
+                server.Connect(serverEndPoint);
 
-            Thread t = new Thread(new ThreadStart(readBitmap));
-            t.Start();
+                Thread t = new Thread(new ThreadStart(readBitmap));
+                t.Start();
 
-            _connected = true;
+                _connected = true;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private void readBitmap()
@@ -66,18 +74,32 @@ namespace AzureEmulatorClient
         {
             if (!_connected) return;
 
-            NetworkStream stream = server.GetStream();
-            stream.WriteByte(0);
-            stream.WriteByte((byte)key);
+            try
+            {
+                NetworkStream stream = server.GetStream();
+                stream.WriteByte(0);
+                stream.WriteByte((byte)key);
+            }
+            catch (Exception)
+            {
+                _connected = false;
+            }
         }
 
         public void SendKeyUp(int key)
         {
             if (!_connected) return;
 
-            NetworkStream stream = server.GetStream();
-            stream.WriteByte(1);
-            stream.WriteByte((byte)key);
+            try
+            {
+                NetworkStream stream = server.GetStream();
+                stream.WriteByte(1);
+                stream.WriteByte((byte)key);
+            }
+            catch (Exception)
+            {
+                _connected = false;
+            }
         }
 
         public void SendKeyboardState(KeyboardState state)
