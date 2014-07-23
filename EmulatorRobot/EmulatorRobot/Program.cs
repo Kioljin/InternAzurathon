@@ -29,19 +29,26 @@ namespace EmulatorRobot
 
         public void Execute()
         {
-            InputSimulator iss = new InputSimulator();
+            try
+            {
+                InputSimulator iss = new InputSimulator();
 
-            if (type == 0)
-            {
-                Console.WriteLine("Down: " + key);
-                //key down
-                iss.Keyboard.KeyDown((VirtualKeyCode)key);
+                if (type == 0)
+                {
+                    Console.WriteLine("Down: " + key);
+                    //key down
+                    iss.Keyboard.KeyDown((VirtualKeyCode)key);
+                }
+                else if (type == 1)
+                {
+                    Console.WriteLine("Up: " + key);
+                    //key up
+                    iss.Keyboard.KeyUp((VirtualKeyCode)key);
+                }
             }
-            else if (type == 1)
+            catch (Exception e)
             {
-                Console.WriteLine("Up: " + key);
-                //key up
-                iss.Keyboard.KeyUp((VirtualKeyCode)key);
+                    System.Console.WriteLine("Unable to display keypress.");
             }
         }
     }

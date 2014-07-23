@@ -80,12 +80,13 @@ namespace AzureEmulatorClient
         private void btnConnect_Click(object sender, EventArgs e)
         {
             server = new ControllerServer(this, txtServer.Text);
-            server.Connect();
-
-            txtServer.Visible = false;
-            txtServer.Enabled = true;
-            btnConnect.Visible = false;
-            btnConnect.Enabled = true;
+            if (server.Connect())
+            {
+                txtServer.Visible = false;
+                txtServer.Enabled = true;
+                btnConnect.Visible = false;
+                btnConnect.Enabled = true;
+            }
         }
 
         private Bitmap CaptureWindow()
